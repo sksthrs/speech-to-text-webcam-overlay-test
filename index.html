@@ -319,9 +319,11 @@
         clearSelect(select_camera);
         // メディアデバイス一覧のうち、videoinputをoption要素としてselectに追加
         for (let i=0 ; i !== deviceInfos.length ; ++i) {
-            console.log(`device #${i} : ${deviceInfos[i].kind} label=${deviceInfos[i].label}`)
-            if (deviceInfos[i].kind === 'videoinput') {
+            const deviceInfo = deviceInfos[i];
+            console.log(`device #${i} : ${deviceInfo.kind} label=${deviceInfo.label}`)
+            if (deviceInfo.kind === 'videoinput') {
                 const option = document.createElement('option');
+                option.value = deviceInfo.deviceId;
                 option.text = deviceInfos[i].label || `camera ${select_camera.length + 1}`;
                 select_camera.appendChild(option);
             }
@@ -346,6 +348,11 @@
             });
         }
         const videoSource = select_camera.value;
+        if (videoSource) {
+            console.log(`camera:${videoSource}`)
+        } else {
+            console.log(`camera:undefined/null`)
+        }
         const constraints = {
             video: {
                 aspectRatio: { ideal: 1.7777777778 },
