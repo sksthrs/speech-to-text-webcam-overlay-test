@@ -320,6 +320,7 @@
     // 引数は MediaDevices.enumerateDevices() の戻り値の Promise の中身という前提
     // 参考：https://developer.mozilla.org/ja/docs/Web/API/MediaDevices/enumerateDevices
     function updateCameraSelector(deviceInfos) {
+        console.log(`updateCameraSelector : arg:${deviceInfos ? deviceInfos.length : "undef/null" }`)
         // 選んだ項目を最後で再度選ぶために記憶
         const selectedDevice = select_camera.value;
         // 既存の選択肢をクリア
@@ -327,6 +328,7 @@
         // メディアデバイス一覧のうち、videoinputをoption要素としてselectに追加
         for (let i=0 ; i !== deviceInfos.length ; ++i) {
             const deviceInfo = deviceInfos[i];
+            console.log(`device${i} : ${device.label} (${device.kind})`)
             if (deviceInfo.kind === 'videoinput') {
                 const option = document.createElement('option');
                 option.value = deviceInfo.deviceId;
@@ -341,6 +343,7 @@
     // video要素にstreamを設定し、メディア（カメラ、マイク）一覧を返す
     // 参考：https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
     function handleStream(stream) {
+        console.log(`handleStream: stream:${stream ? "exists" : "undef/null"}`)
         $video.srcObject = stream;
         return navigator.mediaDevices.enumerateDevices();
     }
@@ -348,12 +351,15 @@
     // 設定に基づきカメラ映像を表示
     // 参考：https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
     function setupCamera() {
+        console.log('setupCamera begins')
         if (window.stream) {
+            console.log('stream exists.')
             window.stream.getTracks().forEach(track => {
                 track.stop();
             });
         }
         const videoSource = select_camera.value;
+        console.log(`video source : [${videoSource}]`)
         const constraints = {
             video: {
                 aspectRatio: { ideal: 1.7777777778 },
