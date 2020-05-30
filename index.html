@@ -328,7 +328,7 @@
         // メディアデバイス一覧のうち、videoinputをoption要素としてselectに追加
         for (let i=0 ; i !== deviceInfos.length ; ++i) {
             const deviceInfo = deviceInfos[i];
-            console.log(`device${i} : ${device.label} (${device.kind})`)
+            console.log(`device${i} : ${deviceInfo.label} (${deviceInfo.kind})`)
             if (deviceInfo.kind === 'videoinput') {
                 const option = document.createElement('option');
                 option.value = deviceInfo.deviceId;
