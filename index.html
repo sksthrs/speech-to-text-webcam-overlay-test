@@ -350,8 +350,9 @@
     }
 
     // 設定に基づきカメラ映像を表示
+    // isInit : カメラ選択肢がない場合だけtrue、他（選択肢切替時や保存された設定からの復元時）は不要
     // 参考：https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
-    function setupCamera() {
+    function setupCamera(isInit) {
         console.log('setupCamera begins')
         if (window.stream) {
             console.log('stream exists.')
@@ -363,11 +364,13 @@
         console.log(`video source : [${videoSource}]`)
         const constraints = {
             video: {
-                aspectRatio: { ideal: 1.7777777778 },
-                deviceId: videoSource ? {exact: videoSource} : undefined
+                aspectRatio: { ideal: 1.7777777778 }
             },
             audio: false
         };
+        if (isInit !== true) {
+            constraints.video[deviceId] = videoSource ? {exact: videoSource} : undefined;
+        }
         navigator.mediaDevices.getUserMedia(constraints)
             .then(handleStream)
             .then(updateCameraSelector)
@@ -870,7 +873,7 @@
             }
             if (!camera_selected) {
                 // カメラ設定がされていなければ、デフォルトカメラで開始
-                setupCamera();
+                setupCamera(true); // 引数はデフォルトカメラ選択の意
             }
         }
         if (typeof config.select_font !== 'undefined') {
