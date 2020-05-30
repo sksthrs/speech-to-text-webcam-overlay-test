@@ -344,6 +344,7 @@
     // 参考：https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
     function handleStream(stream) {
         console.log(`handleStream: stream:${stream ? "exists" : "undef/null"}`)
+        window.stream = stream;
         $video.srcObject = stream;
         return navigator.mediaDevices.enumerateDevices();
     }
