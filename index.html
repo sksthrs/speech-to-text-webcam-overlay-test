@@ -303,7 +303,6 @@
     // select要素のoptionに、option.valueがvalueな項目があれば選択する
     // 戻り値は、option中に該当項目があればtrue
     function selectValueIfExists(select, value) {
-        console.log(`selectValueIfExists : value=${value}`)
         if (value === null || value === undefined) return;
         var result = false;
         select.childNodes.forEach(n => {
@@ -321,7 +320,6 @@
     // 引数は MediaDevices.enumerateDevices() の戻り値の Promise の中身という前提
     // 参考：https://developer.mozilla.org/ja/docs/Web/API/MediaDevices/enumerateDevices
     function updateCameraSelector(deviceInfos) {
-        console.log(`updateCameraSelector : arg:${deviceInfos ? deviceInfos.length : "undef/null" }`)
         // 選んだ項目を最後で再度選ぶために記憶
         const selectedDevice = select_camera.value;
         // 既存の選択肢をクリア
@@ -329,7 +327,6 @@
         // メディアデバイス一覧のうち、videoinputをoption要素としてselectに追加
         for (let i=0 ; i !== deviceInfos.length ; ++i) {
             const deviceInfo = deviceInfos[i];
-            console.log(`device${i} : ${deviceInfo.label} (${deviceInfo.kind})`)
             if (deviceInfo.kind === 'videoinput') {
                 const option = document.createElement('option');
                 option.value = deviceInfo.deviceId;
@@ -344,7 +341,6 @@
     // video要素にstreamを設定し、メディア（カメラ、マイク）一覧を返す
     // 参考：https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
     function handleStream(stream) {
-        console.log(`handleStream: stream:${stream ? "exists" : "undef/null"}`)
         window.stream = stream;
         $video.srcObject = stream;
         return navigator.mediaDevices.enumerateDevices();
@@ -354,15 +350,12 @@
     // isInit : カメラ選択肢がない場合だけtrue、他（選択肢切替時や保存された設定からの復元時）は不要
     // 参考：https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
     function setupCamera(isInit) {
-        console.log('setupCamera begins')
         if (window.stream) {
-            console.log('stream exists.')
             window.stream.getTracks().forEach(track => {
                 track.stop();
             });
         }
         const videoSource = select_camera.value;
-        console.log(`video source : [${videoSource}]`)
         const constraints = {
             video: {
                 aspectRatio: { ideal: 1.7777777778 }
@@ -378,20 +371,18 @@
             .catch(onCameraError);
     }
 
+    // カメラ初回起動
     function initCamera() {
         const conf = JSON.parse(localStorage.speech_to_text_config || '{}');
         var camera_selected = false;
         if (typeof conf.select_camera !== 'undefined') {
-            console.log(`config exists : [${conf.select_camera}]`)
             if (selectValueIfExists(select_camera, conf.select_camera)) {
-                console.log('selected')
-                // カメラ選択肢が保存され、selectのoption中にあれば選択
+                // カメラ選択肢が保存され、selectのoption中にあれば選択されたカメラを起動
                 camera_selected = true;
                 setupCamera();
             }
         }
         if (!camera_selected) {
-            console.log('no camera selected')
             // カメラ設定がされていなければ、デフォルトカメラで開始
             setupCamera(true); // 引数はデフォルトカメラ選択の意
         }
