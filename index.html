@@ -378,6 +378,25 @@
             .catch(onCameraError);
     }
 
+    function initCamera() {
+        const conf = JSON.parse(localStorage.speech_to_text_config || '{}');
+        var camera_selected = false;
+        if (typeof conf.select_camera !== 'undefined') {
+            console.log(`config exists : [${conf.select_camera}]`)
+            if (selectValueIfExists(select_camera, conf.select_camera)) {
+                console.log('selected')
+                // カメラ選択肢が保存され、selectのoption中にあれば選択
+                camera_selected = true;
+                triggerEvent('change', select_camera);
+            }
+        }
+        if (!camera_selected) {
+            console.log('no camera selected')
+            // カメラ設定がされていなければ、デフォルトカメラで開始
+            setupCamera(true); // 引数はデフォルトカメラ選択の意
+        }
+    }
+
     function onCameraError(err) {
         console.log(`カメラ関連の問題：${err.name} / ${err.message}`)
         alert(`カメラ映像を読み込めませんでした。ブラウザのアクセス制限など，設定を確認してください`);
@@ -387,6 +406,7 @@
     // カメラの選択肢を生成
     navigator.mediaDevices.enumerateDevices()
         .then(updateCameraSelector)
+        .then(initCamera)
         .catch(onCameraError);
 
     // 音声認識
@@ -862,23 +882,6 @@
             const el = document.getElementById(config.position);
             el.checked = 'checked';
             triggerEvent('input', el);
-        }
-        {
-            var camera_selected = false;
-            if (typeof config.select_camera !== 'undefined') {
-                console.log(`config exists : [${config.select_camera}]`)
-                if (selectValueIfExists(select_camera, config.select_camera)) {
-                    console.log('selected')
-                    // カメラ選択肢が保存され、selectのoption中にあれば選択
-                    camera_selected = true;
-                    triggerEvent('change', select_camera);
-                }
-            }
-            if (!camera_selected) {
-                console.log('no camera selected')
-                // カメラ設定がされていなければ、デフォルトカメラで開始
-                setupCamera(true); // 引数はデフォルトカメラ選択の意
-            }
         }
         if (typeof config.select_font !== 'undefined') {
             select_font.selectedIndex = config.select_font;
