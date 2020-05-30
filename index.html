@@ -329,7 +329,6 @@
     // video要素にstreamを設定し、メディア（カメラ、マイク）一覧を返す
     // 参考：https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
     function handleStream(stream) {
-        window.stream = stream;
         $video.srcObject = stream;
         return navigator.mediaDevices.enumerateDevices();
     }
