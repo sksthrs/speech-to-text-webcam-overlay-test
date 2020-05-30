@@ -303,6 +303,7 @@
     // select要素のoptionに、option.valueがvalueな項目があれば選択する
     // 戻り値は、option中に該当項目があればtrue
     function selectValueIfExists(select, value) {
+        console.log(`selectValueIfExists : value=${value}`)
         if (value === null || value === undefined) return;
         var result = false;
         select.childNodes.forEach(n => {
@@ -865,13 +866,16 @@
         {
             var camera_selected = false;
             if (typeof config.select_camera !== 'undefined') {
+                console.log(`config exists : [${config.select_camera}]`)
                 if (selectValueIfExists(select_camera, config.select_camera)) {
+                    console.log('selected')
                     // カメラ選択肢が保存され、selectのoption中にあれば選択
                     camera_selected = true;
                     triggerEvent('change', select_camera);
                 }
             }
             if (!camera_selected) {
+                console.log('no camera selected')
                 // カメラ設定がされていなければ、デフォルトカメラで開始
                 setupCamera(true); // 引数はデフォルトカメラ選択の意
             }
