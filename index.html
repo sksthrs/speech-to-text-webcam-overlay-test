@@ -387,7 +387,7 @@
                 console.log('selected')
                 // カメラ選択肢が保存され、selectのoption中にあれば選択
                 camera_selected = true;
-                triggerEvent('change', select_camera);
+                setupCamera();
             }
         }
         if (!camera_selected) {
