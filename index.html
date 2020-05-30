@@ -348,7 +348,7 @@
         const videoSource = select_camera.value;
         const constraints = {
             video: {
-                aspectRatio: { exact: 1.7777777778 },
+                aspectRatio: { ideal: 1.7777777778 },
                 deviceId: videoSource ? {exact: videoSource} : undefined
             },
             audio: false
