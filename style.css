@@ -13,7 +13,7 @@ body {
 .help_wrapper,
 .log_wrapper {
 	line-height: 150%;
-	color: #666;
+	color: #999;
 	margin-bottom: 1rem;
 }
 
@@ -152,7 +152,8 @@ a:link, a:visited, a:hover, a:active {
 	padding: 1rem 1.5rem;
 }
 
-#status {
+#status,
+#status_kuromoji_loading {
     box-sizing: border-box;
 	background-color: #000e16;
 	display: inline-block;
@@ -335,7 +336,7 @@ select {
 	display: inline;
 }
 
-.select_dialect {
+.selector {
 	margin-right: 1rem;
 }
 
@@ -393,6 +394,34 @@ select {
 	text-align: right;
 }
 
+.log_control_wrapper {
+	position: relative;
+}
+
+.log_input_wrapper {
+	text-align: right;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+.log_input_wrapper input {
+	vertical-align: -1.4px;
+}
+
 .mirror {
 	transform: scale(-1, 1);
+}
+
+.loading_hiragana {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	transition: all 0.3s;
+	font-size: 24px;
+	margin: 2rem;
+	/* text-align: center; */
+	vertical-align: middle;
 }
