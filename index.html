@@ -407,6 +407,8 @@
     var flag_speech = 0;
     var recognition;
     var lang = 'ja-JP';
+    var textUpdateTimeoutID = 0;
+    var textUpdateTimeoutSecond = 60; // 音声認識結果が更新されない場合にクリアするまでの秒数（0以下の場合は自動クリアしない）
 
     function vr_function() {
         window.SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
@@ -449,6 +451,7 @@
                     }else{
                         document.getElementById('result_text').innerHTML = result_transcript;
                     }
+                    setTimeoutForClearText();
 
                     if(document.getElementById('checkbox_timestamp').checked){
                         // タイムスタンプ機能
@@ -486,6 +489,29 @@
         document.getElementById('status').innerHTML = "待機中";
         document.getElementById('status').className = "ready";
         recognition.start();
+    }
+
+    function clearTimeoutForClearText() {
+        if (textUpdateTimeoutID !== 0) {
+            clearTimeout(textUpdateTimeoutID);
+            textUpdateTimeoutID = 0;
+        }
+    }
+
+    // 変数 textUpdateTimeoutSecond に基づいてタイマーを設定する。
+    // タイマーの時間切れで、字幕を自動的に消去する。
+    // 変数の値がゼロ以下の場合はタイマーは設定されない。
+    // タイマーが既に動いている場合、処理タイミングは後からのもので上書きする。
+    function setTimeoutForClearText() {
+        if (textUpdateTimeoutSecond <= 0) return;
+
+        clearTimeoutForClearText();
+        textUpdateTimeoutID = setTimeout(
+            () => {
+                document.getElementById('result_text').innerHTML = "";
+                textUpdateTimeoutID = 0;
+            }, 
+            textUpdateTimeoutSecond * 1000);
     }
 
     // 認識結果のログのtextareaを自動変形する
