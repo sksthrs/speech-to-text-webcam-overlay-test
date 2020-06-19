@@ -504,7 +504,7 @@
     function updateTextClearSecond() {
         const sec = Number(document.getElementById('select_autoclear_text').value);
         console.log(`updateTextClearSecond : sec=${sec}`)
-        if (!isNaN(sec) && !isFinite(sec) && sec >= 0) {
+        if ((!isNaN(sec)) && (!isFinite(sec)) && (sec >= 0)) {
             textUpdateTimeoutSecond = sec;
             if (sec === 0) {
                 clearTimeoutForClearText();
