@@ -933,7 +933,6 @@
             el.checked = config.checkbox_hiragana;
             triggerEvent('input', el);
         }
-        console.log(`config.select_autoclear_text : ${config.select_autoclear_text}`)
         if (typeof config.select_autoclear_text !== 'undefined') {
             const el = document.getElementById('select_autoclear_text');
             selectValueIfExists(el, config.select_autoclear_text);
@@ -956,7 +955,6 @@
     function updateConfig(key, value) {
         config[key] = value;
         localStorage.speech_to_text_config = JSON.stringify(config);
-        console.log(`updateConfig [${key}]-[${value}]`)
     }
 
     function updateConfigClass(key, value_key, value) {
