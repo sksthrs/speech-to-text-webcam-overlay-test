@@ -937,6 +937,7 @@
         if (typeof config.select_autoclear_text !== 'undefined') {
             const el = document.getElementById('select_autoclear_text');
             selectValueIfExists(el, config.select_autoclear_text);
+            triggerEvent('change', el);
         }
 
         document.querySelectorAll('input.control_input').forEach(
