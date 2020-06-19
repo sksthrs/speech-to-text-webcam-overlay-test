@@ -503,15 +503,9 @@
 
     function updateTextClearSecond() {
         const sec = Number(document.getElementById('select_autoclear_text').value);
-        console.log(`updateTextClearSecond : sec=${sec} isNan:${isNaN(sec)} isFin:${isFinite(sec)} >=0:${sec>=0}`)
         if ((!isNaN(sec)) && isFinite(sec) && (sec >= 0)) {
-            console.log("update")
             textUpdateTimeoutSecond = sec;
-            if (sec === 0) {
-                clearTimeoutForClearText();
-            }
         }
-        console.log(`updateTextClearSecond : new sec=${textUpdateTimeoutSecond}`)
     }
 
     function clearTimeoutForClearText() {
@@ -526,7 +520,6 @@
     // 変数の値がゼロ以下の場合はタイマーは設定されない。
     // タイマーが既に動いている場合、処理タイミングは後からのもので上書きする。
     function setTimeoutForClearText() {
-        console.log(`setTimeoutForClearText time=${textUpdateTimeoutSecond}`)
         if (textUpdateTimeoutSecond <= 0) return;
 
         clearTimeoutForClearText();
