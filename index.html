@@ -954,6 +954,7 @@
     function updateConfig(key, value) {
         config[key] = value;
         localStorage.speech_to_text_config = JSON.stringify(config);
+        console.log(`updateConfig [${key}]-[${value}]`)
     }
 
     function updateConfigClass(key, value_key, value) {
